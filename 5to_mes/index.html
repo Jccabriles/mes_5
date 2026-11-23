@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>23 de Noviembre</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: 'Segoe UI', system-ui, -apple-system, Roboto, sans-serif;
+      background: linear-gradient(135deg, #ff758c 0%, #ff7eb3 35%, #a18cd1 70%, #fbc2eb 100%);
+      background-size: 300% 300%;
+      animation: gradientShift 12s ease infinite;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      overflow-x: hidden;
+      position: relative;
+      color: #2d3436;
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .particles {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+      overflow: hidden;
+    }
+
+    .particle {
+      position: absolute;
+      bottom: -30px;
+      border-radius: 50%;
+      opacity: 0.55;
+      animation: floatUp linear infinite;
+      pointer-events: none;
+    }
+
+    @keyframes floatUp {
+      0% { transform: translateY(0) rotate(0deg) scale(0.8); opacity: 0; }
+      20% { opacity: 0.65; }
+      80% { opacity: 0.65; }
+      100% { transform: translateY(-110vh) rotate(360deg) scale(1.2); opacity: 0; }
+    }
+
+    .container {
+      width: 100%;
+      max-width: 540px;
+      position: relative;
+      z-index: 20;
+    }
+
+    .glass-card {
+      background: #ffffff;
+      border-radius: 26px;
+      padding: 36px 26px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+      border: 2px solid rgba(255, 255, 255, 0.92);
+      position: relative;
+      z-index: 20;
+      overflow: hidden;
+    }
+
+    .corner-deco {
+      position: absolute;
+      width: 105px;
+      height: 105px;
+      pointer-events: none;
+      z-index: 2;
+      opacity: 0.92;
+    }
+
+    .corner-top-left { top: -4px; left: -4px; }
+    .corner-top-right { top: -4px; right: -4px; transform: scaleX(-1); }
+    .corner-bottom-left { bottom: -4px; left: -4px; transform: scaleY(-1); }
+    .corner-bottom-right { bottom: -4px; right: -4px; transform: scale(-1, -1); }
+
+    .card-content {
+      position: relative;
+      z-index: 15;
+    }
+
+    .page-screen {
+      display: none;
+    }
+
+    .page-screen.active {
+      display: block;
+    }
+
+    .intro-center {
+      text-align: center;
+      padding: 10px 0;
+    }
+
+    .date-badge {
+      display: inline-block;
+      background: linear-gradient(90deg, #e84393, #6c5ce7);
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 0.85rem;
+      letter-spacing: 1px;
+      padding: 6px 16px;
+      border-radius: 50px;
+      margin-bottom: 16px;
+    }
+
+    .title {
+      font-size: 1.85rem;
+      font-weight: 700;
+      color: #2d3436;
+      margin-bottom: 14px;
+    }
+
+    .pre-note-box {
+      background: #fff5f8;
+      border-left: 4px solid #e84393;
+      border-radius: 14px;
+      padding: 16px;
+      text-align: left;
+      margin: 16px 0 24px;
+      font-size: 0.96rem;
+      line-height: 1.6;
+      color: #2d3436;
+    }
+
+    .pre-note-label {
+      display: block;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      font-weight: 700;
+      color: #e84393;
+      margin-bottom: 6px;
+    }
+
+    button {
+      position: relative;
+      z-index: 30;
+      touch-action: manipulation;
+      user-select: none;
+    }
+
+    .btn-primary {
+      width: 100%;
+      border: none;
+      outline: none;
+      padding: 15px 22px;
+      border-radius: 14px;
+      background: linear-gradient(90deg, #e84393, #6c5ce7);
+      color: #ffffff;
+      font-size: 1.05rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .btn-secondary {
+      background: #f3f0ff;
+      border: 1.5px solid #6c5ce7;
+      color: #6c5ce7;
+      padding: 11px 16px;
+      border-radius: 12px;
+      font-size: 0.92rem;
+      font-weight: 700;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    .letter-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px dashed rgba(108, 92, 231, 0.35);
+      padding-bottom: 12px;
+      margin-bottom: 18px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: #6c5ce7;
+    }
+
+    .photo-frame {
+      margin: 0 auto 20px;
+      padding: 10px;
+      border-radius: 22px;
+      background: linear-gradient(135deg, #ffe3ec, #f1edff, #e6fcf5);
+      border: 2px solid rgba(232, 67, 147, 0.28);
+      box-shadow: 0 12px 26px rgba(108, 92, 231, 0.14);
+      text-align: center;
+    }
+
+    .photo-frame img {
+      display: block;
+      width: 100%;
+      height: auto;
+      max-height: none;
+      object-fit: contain;
+      border-radius: 15px;
+    }
+
+    .photo-placeholder {
+      display: none;
+      padding: 26px 16px;
+      border-radius: 14px;
+      border: 2px dashed rgba(232, 67, 147, 0.45);
+      background: #fff9fb;
+      color: #636e72;
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    .photo-placeholder strong {
+      display: block;
+      color: #e84393;
+      margin-bottom: 4px;
+      font-size: 0.96rem;
+    }
+
+    .letter-body p {
+      font-size: 0.99rem;
+      line-height: 1.74;
+      color: #2d3436;
+      margin-bottom: 15px;
+    }
+
+    .nav-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .nav-actions > button {
+      flex: 1;
+    }
+
+    .secret-trigger-wrap {
+      margin-top: 18px;
+      text-align: center;
+    }
+
+    .secret-link {
+      background: linear-gradient(135deg, #fff0f6, #f3f0ff);
+      border: 1.5px dashed #e84393;
+      color: #e84393;
+      padding: 10px 20px;
+      border-radius: 50px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .secret-box {
+      text-align: center;
+      padding: 14px 4px;
+    }
+
+    .secret-badge {
+      display: inline-block;
+      background: #f3f0ff;
+      color: #6c5ce7;
+      border: 1px solid rgba(108, 92, 231, 0.3);
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      padding: 5px 14px;
+      border-radius: 50px;
+      margin-bottom: 16px;
+    }
+
+    .btn-secret {
+      width: 100%;
+      border: none;
+      outline: none;
+      padding: 16px 20px;
+      border-radius: 16px;
+      background: linear-gradient(90deg, #ff6b81, #e84393, #6c5ce7);
+      color: #ffffff;
+      font-size: 1rem;
+      line-height: 1.45;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 10px 24px rgba(232, 67, 147, 0.3);
+      margin-top: 10px;
+    }
+
+    .secret-reveal {
+      display: none;
+      margin-top: 22px;
+      padding: 22px 18px;
+      border-radius: 18px;
+      background: linear-gradient(145deg, #fff0f6, #f3f0ff);
+      border: 2px solid rgba(232, 67, 147, 0.35);
+      font-size: 1.08rem;
+      line-height: 1.65;
+      font-weight: 700;
+      color: #2d3436;
+    }
+
+    .confetti-piece {
+      position: fixed;
+      width: 9px;
+      height: 9px;
+      border-radius: 2px;
+      z-index: 99;
+      pointer-events: none;
+      animation: confettiFall 2.6s ease-out forwards;
+    }
+
+    @keyframes confettiFall {
+      0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(105vh) rotate(720deg); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="particles" id="particles"></div>
+
+  <div class="container">
+    <div class="glass-card">
+      <svg class="corner-deco corner-top-left" viewBox="0 0 120 120" fill="none">
+        <path d="M8 95C16 48 48 16 95 8" stroke="#2ecc71" stroke-width="3.5" stroke-linecap="round"/>
+        <path d="M22 65C14 55 16 42 28 38C30 50 28 60 22 65Z" fill="#55efc4"/>
+        <path d="M42 38C34 28 38 16 50 14C50 25 48 34 42 38Z" fill="#00b894"/>
+        <path d="M65 20C60 10 68 4 78 6C75 15 70 19 65 20Z" fill="#55efc4"/>
+        <circle cx="24" cy="24" r="9" fill="#ff7eb3"/>
+        <circle cx="24" cy="24" r="3.5" fill="#ffeaa7"/>
+        <circle cx="58" cy="14" r="7" fill="#a29bfe"/>
+        <circle cx="58" cy="14" r="2.8" fill="#fff"/>
+        <circle cx="15" cy="64" r="6.5" fill="#fdcb6e"/>
+      </svg>
+
+      <svg class="corner-deco corner-top-right" viewBox="0 0 120 120" fill="none">
+        <path d="M8 95C16 48 48 16 95 8" stroke="#2ecc71" stroke-width="3.5" stroke-linecap="round"/>
+        <path d="M22 65C14 55 16 42 28 38C30 50 28 60 22 65Z" fill="#55efc4"/>
+        <path d="M42 38C34 28 38 16 50 14C50 25 48 34 42 38Z" fill="#00b894"/>
+        <circle cx="24" cy="24" r="9" fill="#ff7eb3"/>
+        <circle cx="24" cy="24" r="3.5" fill="#ffeaa7"/>
+        <circle cx="58" cy="14" r="7" fill="#a29bfe"/>
+        <circle cx="15" cy="64" r="6.5" fill="#fdcb6e"/>
+      </svg>
+
+      <svg class="corner-deco corner-bottom-left" viewBox="0 0 120 120" fill="none">
+        <path d="M8 95C16 48 48 16 95 8" stroke="#2ecc71" stroke-width="3.5" stroke-linecap="round"/>
+        <path d="M22 65C14 55 16 42 28 38C30 50 28 60 22 65Z" fill="#55efc4"/>
+        <path d="M42 38C34 28 38 16 50 14C50 25 48 34 42 38Z" fill="#00b894"/>
+        <circle cx="24" cy="24" r="8.5" fill="#fd79a8"/>
+        <circle cx="24" cy="24" r="3" fill="#ffeaa7"/>
+        <circle cx="56" cy="14" r="6.5" fill="#74b9ff"/>
+      </svg>
+
+      <svg class="corner-deco corner-bottom-right" viewBox="0 0 120 120" fill="none">
+        <path d="M8 95C16 48 48 16 95 8" stroke="#2ecc71" stroke-width="3.5" stroke-linecap="round"/>
+        <path d="M22 65C14 55 16 42 28 38C30 50 28 60 22 65Z" fill="#55efc4"/>
+        <path d="M42 38C34 28 38 16 50 14C50 25 48 34 42 38Z" fill="#00b894"/>
+        <circle cx="24" cy="24" r="8.5" fill="#fd79a8"/>
+        <circle cx="24" cy="24" r="3" fill="#ffeaa7"/>
+        <circle cx="56" cy="14" r="6.5" fill="#74b9ff"/>
+      </svg>
+
+      <div class="card-content">
+        <!-- PÁGINA 1: NOTA PREVIA -->
+        <div class="page-screen active" id="page1">
+          <div class="intro-center">
+            <div class="date-badge">23 DE NOVIEMBRE</div>
+            <h1 class="title">Para Jengely</h1>
+
+            <div class="pre-note-box">
+              <span class="pre-note-label">Nota antes de abrir</span>
+              Esta carta ya estaba en planes desde antes. Te quería entregar algo bonito y real porque ahorita estoy muy bajo económicamente, pero no quería dejar pasar nuestra fecha sin darte un detalle hecho con cariño.
+            </div>
+
+            <button class="btn-primary" type="button" id="btnOpenLetter">Abrir carta</button>
+          </div>
+        </div>
+
+        <!-- PÁGINA 2: FOTO + PRIMERA PARTE DE LA CARTA -->
+        <div class="page-screen" id="page2">
+          <div class="letter-header">
+            <span>23 de Noviembre</span>
+            <span>Página 1 de 2</span>
+          </div>
+
+          <div class="photo-frame">
+            <img
+              id="couplePhoto"
+              src="foto-nosotros.jpg"
+              alt="Foto de nosotros"
+            >
+            <div class="photo-placeholder" id="photoPlaceholder">
+              <strong>Aquí va la foto de ustedes</strong>
+              Guarda tu foto en la misma carpeta del archivo HTML con el nombre <code>foto-nosotros.jpg</code>.
+            </div>
+          </div>
+
+          <div class="letter-body">
+            <p>
+              Mi amorcito, antes de todo quería darte las gracias de verdad por estos últimos meses. Me ha encantado pasar este tiempo contigo y compartir todo lo que hemos vivido.
+            </p>
+            <p>
+              Tú has estado ahí en mis peores momentos, y siento que ahorita mismo estoy atravesando uno de mis momentos más fatales, con tanta carga encima, y aun así te tengo a mi lado sin importar qué. Eso para mí vale muchísimo. Tú me das ese apoyo que no siento en casa, tú me das seguridad y eres la única que sabe cómo me siento y lo mucho que oculto las cosas por no preocupar a nadie.
+            </p>
+          </div>
+
+          <div class="nav-actions">
+            <button class="btn-secondary" type="button" id="btnBackTo1">← Nota inicial</button>
+            <button class="btn-primary" type="button" id="btnNextTo3">Siguiente →</button>
+          </div>
+        </div>
+
+        <!-- PÁGINA 3: SEGUNDA PARTE DE LA CARTA -->
+        <div class="page-screen" id="page3">
+          <div class="letter-header">
+            <span>23 de Noviembre</span>
+            <span>Página 2 de 2</span>
+          </div>
+
+          <div class="letter-body">
+            <p>
+              De verdad gracias mi vida, simplemente gracias por darme fuerzas cuando casi me rendía; tú me dabas un empujoncito pa levantarme aunque no lo supieras. Tú para mí siempre serás una persona muy importante en mi vida, por eso es que te amo tanto. Cada que te tengo en mi pecho mimida o en mis brazos solo te veo y pienso en lo mucho que te amo y en lo mucho que te debo mi vida, porque tú eres como una parte del motor que me inspiró a avanzar en mis peores momentos.
+            </p>
+            <p>
+              Gracias por todo mi amorcito, y espero cerrar este año junto a ti y que el próximo año nos venga con muchísimas bendiciones y cosas buenas.
+            </p>
+          </div>
+
+          <div class="nav-actions">
+            <button class="btn-secondary" type="button" id="btnBackTo2">← Parte anterior</button>
+            <button class="btn-secondary" type="button" id="btnHomeFrom3">Inicio</button>
+          </div>
+
+          <div class="secret-trigger-wrap">
+            <button class="secret-link" type="button" id="btnGoSecret">click si estás lista ✨</button>
+          </div>
+        </div>
+
+        <!-- PÁGINA 4: SECRETA -->
+        <div class="page-screen" id="page4">
+          <div class="secret-box">
+            <div class="secret-badge">Página secreta</div>
+            <button class="btn-secret" type="button" id="btnAcceptSign">al tocar firmaras algo muy importante Aceptas?</button>
+
+            <div class="secret-reveal" id="secretReveal">
+              haz firmado y aceptado ser la mujer madre y futura esposa de mi vida te amo y mucho gusto señorita de cabriles o cuicar 💖
+            </div>
+          </div>
+
+          <div class="nav-actions">
+            <button class="btn-secondary" type="button" id="btnBackTo3">← Volver a la carta</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const particlesContainer = document.getElementById('particles');
+      const colors = ['#ffffff', '#ffeaa7', '#fab1a0', '#a29bfe', '#fd79a8'];
+
+      for (let i = 0; i < 18; i++) {
+        const p = document.createElement('div');
+        p.classList.add('particle');
+        const size = Math.random() * 14 + 8;
+        p.style.width = size + 'px';
+        p.style.height = size + 'px';
+        p.style.left = Math.random() * 100 + '%';
+        p.style.background = colors[Math.floor(Math.random() * colors.length)];
+        p.style.animationDuration = (Math.random() * 10 + 8) + 's';
+        p.style.animationDelay = (Math.random() * 6) + 's';
+        particlesContainer.appendChild(p);
+      }
+
+      const photo = document.getElementById('couplePhoto');
+      const placeholder = document.getElementById('photoPlaceholder');
+      if (photo) {
+        photo.addEventListener('error', function () {
+          photo.style.display = 'none';
+          if (placeholder) placeholder.style.display = 'block';
+        });
+      }
+
+      function launchConfetti() {
+        const confettiColors = ['#e84393', '#6c5ce7', '#fdcb6e', '#00cec9', '#ff7675'];
+        for (let i = 0; i < 35; i++) {
+          const c = document.createElement('div');
+          c.classList.add('confetti-piece');
+          c.style.left = Math.random() * 100 + 'vw';
+          c.style.backgroundColor = confettiColors[Math.floor(Math.random() * confettiColors.length)];
+          c.style.animationDuration = (Math.random() * 1.5 + 1.8) + 's';
+          document.body.appendChild(c);
+          setTimeout(function () { c.remove(); }, 3000);
+        }
+      }
+
+      function goToPage(pageNumber, withConfetti) {
+        const screens = document.querySelectorAll('.page-screen');
+        screens.forEach(function (screen) {
+          screen.classList.remove('active');
+          screen.style.display = 'none';
+        });
+        const target = document.getElementById('page' + pageNumber);
+        if (target) {
+          target.classList.add('active');
+          target.style.display = 'block';
+        }
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        if (withConfetti) {
+          launchConfetti();
+        }
+      }
+
+      document.getElementById('btnOpenLetter').addEventListener('click', function () {
+        goToPage(2, true);
+      });
+
+      document.getElementById('btnBackTo1').addEventListener('click', function () {
+        goToPage(1, false);
+      });
+
+      document.getElementById('btnNextTo3').addEventListener('click', function () {
+        goToPage(3, false);
+      });
+
+      document.getElementById('btnBackTo2').addEventListener('click', function () {
+        goToPage(2, false);
+      });
+
+      document.getElementById('btnHomeFrom3').addEventListener('click', function () {
+        goToPage(1, false);
+      });
+
+      document.getElementById('btnGoSecret').addEventListener('click', function () {
+        goToPage(4, false);
+      });
+
+      document.getElementById('btnAcceptSign').addEventListener('click', function () {
+        document.getElementById('secretReveal').style.display = 'block';
+        launchConfetti();
+      });
+
+      document.getElementById('btnBackTo3').addEventListener('click', function () {
+        goToPage(3, false);
+      });
+    });
+  </script>
+</body>
+</html>
